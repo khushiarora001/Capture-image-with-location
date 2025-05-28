@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:camera_assement/constants/string_constant.dart';
 import 'package:camera_assement/go_tagged_image/provider/translator_provider.dart';
-import 'package:camera_assement/go_tagged_image/screen/widget/location_wisget.dart';
+import 'package:camera_assement/go_tagged_image/screen/widget/location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 

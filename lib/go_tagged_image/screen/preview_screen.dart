@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:camera_assement/constants/string_constant.dart';
 import 'package:camera_assement/go_tagged_image/provider/save_provider.dart';
-import 'package:camera_assement/go_tagged_image/screen/widget/location_wisget.dart';
+import 'package:camera_assement/go_tagged_image/screen/widget/location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:saver_gallery/saver_gallery.dart';

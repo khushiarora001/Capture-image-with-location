@@ -1,10 +1,8 @@
-// constants.dart
-
-const String appTitle = 'Geo-tag Image';
+const String appTitle = 'Capture Image';
 const String captureButton = 'Capture Photo';
 
 const String cropImageTitle = 'Crop Image';
-const String fileName = 'geo_tagged_image';
+const String fileName = 'image';
 const String fileExtension = 'jpg';
 const String cameraError = 'Camera permission required.';
 const String locationError = 'Please allow location access.';
