@@ -11,7 +11,7 @@ class TranslationProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final translated = await translator.translate(text, from: 'en', to: 'hi');
+    final translated = await translator.translate(text, from: 'en', to: 'en');
     translatedText = translated.text;
 
     isLoading = false;

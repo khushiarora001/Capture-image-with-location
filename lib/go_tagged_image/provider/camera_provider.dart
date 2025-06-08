@@ -14,19 +14,24 @@ class CameraProvider with ChangeNotifier {
   bool _cameraAccessAllow = false;
   bool get cameraAccessallow => _cameraAccessAllow;
 
-  Future<void> initializeCamera() async {
-    try {
-      final cameras = await availableCameras();
-      _controller = CameraController(cameras.first, ResolutionPreset.high);
-      await _controller!.initialize();
+  Future<void> initializeCamera([bool isFrontCamera = false]) async {
+    final cameras = await availableCameras();
+    final selectedCamera =
+        isFrontCamera
+            ? cameras.firstWhere(
+              (cam) => cam.lensDirection == CameraLensDirection.front,
+            )
+            : cameras.firstWhere(
+              (cam) => cam.lensDirection == CameraLensDirection.back,
+            );
 
-      _cameraAccessAllow = true;
-      _errorMessage = null;
-    } catch (e) {
-      _errorMessage = 'Failed  camera: ${e.toString()}';
+    _controller = CameraController(
+      selectedCamera,
+      ResolutionPreset.high,
+      enableAudio: false,
+    );
 
-      _cameraAccessAllow = false;
-    }
+    await _controller!.initialize();
     notifyListeners();
   }
 

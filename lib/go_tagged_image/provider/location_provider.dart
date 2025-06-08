@@ -1,11 +1,13 @@
 // location_provider.dart
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' as ui;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:translator/translator.dart';
 
 class LocationProvider with ChangeNotifier {
   String _location = 'Fetch locatiom';
@@ -68,27 +70,39 @@ class LocationProvider with ChangeNotifier {
         return;
       }
 
-      Position position = await Geolocator.getCurrentPosition();
-
-      List<Placemark> placemarks = await placemarkFromCoordinates(
+      final position = await Geolocator.getCurrentPosition();
+      final placemarks = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
       );
 
       if (placemarks.isEmpty) return;
 
-      Placemark place = placemarks[0];
+      final place = placemarks[0];
       final nowLocal = DateTime.now();
       final nowUTC = DateTime.now().toUtc();
       final localTime = DateFormat("yyyy-MM-dd HH:mm").format(nowLocal);
       final gmtTime = DateFormat("HH:mm").format(nowUTC);
 
-      _location =
+      final rawLocation =
+          '${place.name}, ${place.street}, ${place.locality}'
+          ' ${place.postalCode}, ${place.country}\n'
           'Lat: ${position.latitude.toStringAsFixed(6)}°, Lon: ${position.longitude.toStringAsFixed(6)}°\n'
-          '${place.name}, ${place.street}, ${place.subLocality}, ${place.locality},\n'
-          '${place.administrativeArea}, ${place.postalCode}, ${place.country}\n'
-          'Time: $localTime GMT+ $gmtTime';
+          ' $localTime GMT+ $gmtTime';
+      // final rawAddress =
+      //     '${place.name}, ${place.street}, ${place.subLocality}, ${place.locality}, '
+      //     '${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+      // Get device language code (e.g., 'hi' for Hindi, 'ta' for Tamil)
+      final deviceLangCode = ui.PlatformDispatcher.instance.locale.languageCode;
 
+      // // Translate
+      // final translator = GoogleTranslator();
+      // final translated = await translator.translate(
+      //   rawAddress,
+      //   to: deviceLangCode,
+      // );
+
+      _location = rawLocation;
       _locationAccess = true;
       notifyListeners();
     } catch (e) {
